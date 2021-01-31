@@ -76,7 +76,7 @@ namespace SchetsEditor
         }
         public override void MuisLos(SchetsControl s, Point p)
         {   base.MuisLos(s, p);
-            this.Compleet(s.MaakBitmapGraphics(), this.startpunt, p);
+            s.MaakBitmapGraphics();
             s.Invalidate();
         }
         public override void Letter(SchetsControl s, char c)
@@ -85,7 +85,7 @@ namespace SchetsEditor
         public abstract void Bezig(Graphics g, Point p1, Point p2);
         
         public virtual void Compleet(Graphics g, Point p1, Point p2)
-        {   this.Bezig(g, p1, p2);
+        {   //this.Bezig(g, p1, p2);
         }
     }
 
@@ -117,8 +117,9 @@ namespace SchetsEditor
             s.Schets.GetekendeElementen.Add(volrechthoek);
         }
 
-        public override void Compleet(Graphics g, Point p1, Point p2)
-        {   g.FillRectangle(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
+        public override void Bezig(Graphics g, Point p1, Point p2)
+        {
+            g.FillRectangle(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
         }
     }
 
@@ -151,11 +152,11 @@ namespace SchetsEditor
             VolOvaal volovaal = new VolOvaal(startpunt, eindpunt, s.PenKleur);
             s.Schets.GetekendeElementen.Add(volovaal);
         }
-
+/*
         public override void Compleet(Graphics g, Point p1, Point p2)
         {
             g.FillEllipse(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
-        }
+        }*/
 
     }
 
@@ -197,16 +198,21 @@ namespace SchetsEditor
 
         public override void MuisLos(SchetsControl s, Point p)
         {
-            for (int i = 0; i < s.Schets.GetekendeElementen.Count; i++)
             {
-                Console.WriteLine(i);
-
-                GetekendElement tekening = s.Schets.GetekendeElementen[i];
-                if (tekening.Geraakt(p))
+                if (s.Schets.GetekendeElementen != null)
                 {
-                    s.Schets.GetekendeElementen.Remove(tekening);
-                    i = s.Schets.GetekendeElementen.Count;
-                    s.Invalidate();
+                    for (int i = 0; i < s.Schets.GetekendeElementen.Count; i++)
+                    {
+                        GetekendElement tekening = s.Schets.GetekendeElementen[i];
+                        if (tekening.Geraakt(p))
+                        {
+                            s.Schets.GetekendeElementen.Remove(tekening);
+                            i = s.Schets.GetekendeElementen.Count;
+                            s.MaakBitmapGraphics();
+                        }
+                    }
+                   s.Invalidate();
+                
                 }
             }
         }

@@ -35,6 +35,10 @@ namespace SchetsEditor
         public void Teken(Graphics gr)
         {
             gr.DrawImage(bitmap, 0, 0);
+            foreach(GetekendElement tekening in GetekendeElementen)
+            {
+                tekening.Teken(gr);
+            }
         }
         public void Schoon()
         {
