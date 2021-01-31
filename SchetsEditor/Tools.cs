@@ -78,6 +78,7 @@ namespace SchetsEditor
         }
         public override void MuisLos(SchetsControl s, Point p)
         {   base.MuisLos(s, p);
+            // Hiermee wordt de schets getekend
             s.MaakBitmapGraphics();
             s.Invalidate();
         }
@@ -85,6 +86,8 @@ namespace SchetsEditor
         {
         }
         public abstract void Bezig(Graphics g, Point p1, Point p2);
+
+        // Deze methode is overbodig geworden en daarom als comment behouden
 /*        
         public virtual void Compleet(Graphics g, Point p1, Point p2)
         {   //this.Bezig(g, p1, p2);
@@ -94,7 +97,6 @@ namespace SchetsEditor
     public class RechthoekTool : TweepuntTool
     {
         public override string ToString() { return "kader"; }
-
         public override void MuisLos(SchetsControl s, Point p)
         {
             base.MuisLos(s, p);
@@ -111,21 +113,22 @@ namespace SchetsEditor
     public class VolRechthoekTool : TweepuntTool
     {
         public override string ToString() { return "vlak"; }
-
         public override void MuisLos(SchetsControl s, Point p)
         {
             base.MuisLos(s, p);
+            // Voeg de volrechthoek op in de lijst met getekende elementen
             VolRechthoek volrechthoek = new VolRechthoek(startpunt, eindpunt, s.PenKleur);
             s.Schets.GetekendeElementen.Add(volrechthoek);
         }
 
+        // Zorgt dat er een preview van een volle rechthoek zichtbaar is
         public override void Bezig(Graphics g, Point p1, Point p2)
         {
             g.FillRectangle(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
         }
     }
 
-    // Tekent een ovaal in een rechthoek
+    // Tekent een ovaal in een rechthoek en is daarom een subklasse van 
     public class OvaalTool : TweepuntTool
     {
         public override string ToString() { return "omtrek"; }
@@ -133,10 +136,12 @@ namespace SchetsEditor
         public override void MuisLos(SchetsControl s, Point p)
         {
             base.MuisLos(s, p);
+            // Voegt de ovaal toe aan de lijst met getekende elementen
             Ovaal ovaal = new Ovaal(startpunt, eindpunt, s.PenKleur);
             s.Schets.GetekendeElementen.Add(ovaal);
         }
 
+        // Laat een preview zien van een getekende ovaal
         public override void Bezig(Graphics g, Point p1, Point p2)
         {
             g.DrawEllipse(MaakPen(kwast, 3), TweepuntTool.Punten2Rechthoek(p1, p2));
@@ -151,10 +156,12 @@ namespace SchetsEditor
         public override void MuisLos(SchetsControl s, Point p)
         {
             base.MuisLos(s, p);
+            // Voegt de volovaal toe aan de lijst met getekende elementen
             VolOvaal volovaal = new VolOvaal(startpunt, eindpunt, s.PenKleur);
             s.Schets.GetekendeElementen.Add(volovaal);
         }
 
+        // Laat een preview zien van een getekende volle ovaal
         public override void Bezig(Graphics g, Point p1, Point p2)
         {
             g.FillEllipse(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
@@ -169,6 +176,7 @@ namespace SchetsEditor
         public override void MuisLos(SchetsControl s, Point p)
         {
             base.MuisLos(s, p);
+            // Slaat de lijn op in de lijst met getekende elementen
             Lijn lijn = new Lijn(startpunt, eindpunt, s.PenKleur);
             s.Schets.GetekendeElementen.Add(lijn);
         }
@@ -187,25 +195,35 @@ namespace SchetsEditor
             this.MuisLos(s, p);
             this.MuisVast(s, p);
         }
+
+        // TODO uitleg hoe pen gegumd wordt...
     }
 
     public class GumTool : PenTool
     {
         public override string ToString() { return "gum"; }
 
+        // Het Nieuwe Gummen
         public override void MuisLos(SchetsControl s, Point p)
         {
             {
+                // Controleert of de lijst niet leeg is
                 if (s.Schets.GetekendeElementen != null)
                 {
+                    // Gaat van bovenste naar onderste element in de tekening
                     for (int i = s.Schets.GetekendeElementen.Count - 1; i>= 0; i--)
                     {
                         GetekendElement tekening = s.Schets.GetekendeElementen[i];
+
+                        // Controleert of het getekende elment geraakt is, afhankelijk van het soort element
                         if (tekening.Geraakt(p))
                         {
+                            // Element wordt verwijderd van de lijst en de lijst wordt opnieuw getekend
                             s.Schets.GetekendeElementen.Remove(tekening);
                             s.MaakBitmapGraphics();
                             s.Invalidate();
+
+                            // De loop wordt gebroken zodat er niet per ongeluk teveel elemnten verwijderd worden
                             break;
                         }
                     }

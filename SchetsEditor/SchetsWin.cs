@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Resources;
-using System.IO;
+using System.IO; // Nodig voor het opslaan en openen van files
 
 namespace SchetsEditor
 {
@@ -44,18 +44,18 @@ namespace SchetsEditor
 
         private void Opslaan(object o, EventArgs ea)
         {
-/*            {
+            {
                 SaveFileDialog dialoog = new SaveFileDialog();
                 dialoog.Filter = "Alle files|*.*";
                 dialoog.Title = "Opslaan";
                 if (dialoog.ShowDialog() == DialogResult.OK)
                 {
                     StreamWriter stream = File.CreateText(dialoog.FileName + ".txt");
-                    string Tekst = List2String(Getekend);
-                    stream.Write(Tekst);
+                    foreach (GetekendElement tekening in schetscontrol.KrijgLijst())
+                        stream.WriteLine(tekening.ToString());
                     stream.Close();
                 }
-            }*/
+            }
         }
 
         private void Openen(object o, EventArgs ea)
@@ -65,9 +65,12 @@ namespace SchetsEditor
             if (type == ".txt")
             {
                 StreamReader sr = new StreamReader(s);
-                string tekst = sr.ReadToEnd();
-                Getekend = String2List(tekst);
-                DrawFromList(Getekend);
+                string regel;
+                while ((regel = sr.ReadLine()) != null)
+                    schetscontrol.Toevoegen(regel);
+                sr.Close();
+                this.Invalidate();
+
 
             }*/
         }
@@ -138,7 +141,8 @@ namespace SchetsEditor
             ToolStripMenuItem menu = new ToolStripMenuItem("File");
             menu.MergeAction = MergeAction.MatchOnly;
             menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
-            menu.DropDownItems.Add("Opslaan", null);
+            // Voeg opslaan en openen opties toe aan het menu
+            menu.DropDownItems.Add("Opslaan", null, this.Opslaan);
             menu.DropDownItems.Add("Openen", null);
             menuStrip.Items.Add(menu);
         }
@@ -180,6 +184,7 @@ namespace SchetsEditor
                 b.Location = new Point(10, 10 + t * 62);
                 b.Tag = tool;
                 b.Text = tool.ToString();
+                // Bij resources zijn plaatjes van een ovaal en volle ovaal toegevoegd
                 b.Image = (Image)resourcemanager.GetObject(tool.ToString());
                 b.TextAlign = ContentAlignment.TopCenter;
                 b.ImageAlign = ContentAlignment.BottomCenter;

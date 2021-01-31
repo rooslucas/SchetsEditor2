@@ -35,6 +35,7 @@ namespace SchetsEditor
         public void Teken(Graphics gr)
         {
             gr.DrawImage(bitmap, 0, 0);
+            // Zorgt dat elk element in de lijst GetekendeElementen getekend kan worden
             foreach(GetekendElement tekening in GetekendeElementen)
             {
                 tekening.Teken(gr);
@@ -51,6 +52,8 @@ namespace SchetsEditor
         { }
         public void Openen()
         { }
+
+        // Methode die alle elementen roteert en ook zo opslaat
         public void Roteer()
         {
 /*            foreach (GetekendElement tekening in GetekendeElementen)

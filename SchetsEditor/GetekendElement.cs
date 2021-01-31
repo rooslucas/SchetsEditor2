@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace SchetsEditor
 {
+    // De abstracte klasse die de basis vormt voor alle onderstaande elementen
     public abstract class GetekendElement
     {
         // De variabele die gebruikt worden om een getekend element aan te maken
@@ -74,22 +71,26 @@ namespace SchetsEditor
 
     public class Rechthoek : GetekendElement
     {
+        // Constructor methode om een nieuwe rechthoek aan te maken
         public Rechthoek(Point s, Point e, Color c)
         {
             startpunt = s;
             eindpunt = e;
             kleur = c;
         }
+
+        // Methode die aangeeft hoe een rechthoek getekend kan worden
         public override void Teken(Graphics gr)
         {
             base.Teken(gr);
             gr.DrawRectangle(TweepuntTool.MaakPen(kwast, 3), TweepuntTool.Punten2Rechthoek(startpunt, eindpunt));
         }
 
-        // De rechthoek is geraakt als de afstand tot het kader minder dan  +/- 5 is
+        // De rechthoek is geraakt als de afstand van het punt tot het kader minder dan  +/- 5 is
         public override bool Geraakt(Point p)
         {
             bool linkx, rechtsx, boveny, ondery;
+            // Absolute waarden zijn nodig omdat breedte en lengte in dit geval positief zijn
             int breedte = Math.Abs(startpunt.X - eindpunt.X);
             int lengte = Math.Abs(startpunt.Y - eindpunt.Y);
 
@@ -105,6 +106,7 @@ namespace SchetsEditor
 
     public class VolRechthoek : GetekendElement
     {
+        // Constructor methode om een nieuwe volle rechthoek aan te maken
         public VolRechthoek(Point s, Point e, Color c)
         {
             startpunt = s;
@@ -120,6 +122,7 @@ namespace SchetsEditor
             return (p.X >= startpunt.X && p.X <= startpunt.X + breedte && p.Y >= startpunt.Y && startpunt.Y <= startpunt.Y + lengte);
         }
 
+        // Methode die aangeeft hoe een volle rechthoek getekend moet worden
         public override void Teken(Graphics gr)
         {
             base.Teken(gr);
@@ -129,12 +132,15 @@ namespace SchetsEditor
 
     public class Ovaal : GetekendElement
     {
+        // Constructor methode om een nieuwe ovaal aan te maken
         public Ovaal(Point s, Point e, Color c)
         {
             startpunt = s;
             eindpunt = e;
             kleur = c;
         }
+
+        // Methode die aangeeft hoe een ovaal getekend kan worden
         public override void Teken(Graphics gr)
         {
             base.Teken(gr);
@@ -142,6 +148,7 @@ namespace SchetsEditor
         }
 
         // Berekent de relatieve straal van punt tot middelpunt en kijkt of tussen de 0.95 en 1.05 zit
+        // TODO betere uitleg van relatieve straal
         // bron: http://www.hhofstede.nl/modules/cirkel.htm
         public override bool Geraakt(Point p)
         {
@@ -152,18 +159,21 @@ namespace SchetsEditor
             xmidden = Math.Min(startpunt.X, eindpunt.X) + breedte;
             ymidden = Math.Min(startpunt.Y, eindpunt.Y) + lengte;
             relatievestraal = Math.Pow((p.X - xmidden) / breedte, 2) + Math.Pow((p.Y - ymidden) / lengte, 2);
-            return relatievestraal >= 0.95 && relatievestraal <= 1.05;
+            return relatievestraal >= 0.8 && relatievestraal <= 1.2;
         }
     }
 
     public class VolOvaal : GetekendElement
     {
+        // Constructor methode om een nieuwe volle ovaal aan te maken
         public VolOvaal(Point s, Point e, Color c)
         {
             startpunt = s;
             eindpunt = e;
             kleur = c;
         }
+
+        // Methdoe die aangeeft hoe een volle ovaal getekend kan worden
         public override void Teken(Graphics gr)
         {
             base.Teken(gr);
@@ -188,12 +198,15 @@ namespace SchetsEditor
 
     public class Lijn : GetekendElement
     {
+        // Constructor methode om een nieuwe lijn aan te maken
         public Lijn(Point s, Point e, Color c)
         {
             startpunt = s;
             eindpunt = e;
             kleur = c;
         }
+
+        // Methode die aangeeft hoe een lijn getekend kan worden
         public override void Teken(Graphics gr)
         {
             base.Teken(gr);
@@ -206,8 +219,9 @@ namespace SchetsEditor
         public override bool Geraakt(Point p)
         {
             double afstand, a, b;
-            //if (eindpunt.Y - startpunt.Y != 0)
-            a = (eindpunt.X - startpunt.X) / (eindpunt.Y - startpunt.Y);
+            if (eindpunt.Y - startpunt.Y != 0)
+                a = (eindpunt.X - startpunt.X) / (eindpunt.Y - startpunt.Y);
+            else a = 0;
             b = startpunt.Y - (a * startpunt.X);
             afstand = Math.Abs(a * p.X - p.Y + b) / Math.Sqrt(a * a + b * b);
             return (a * p.X + b == p.Y || afstand <= 5);

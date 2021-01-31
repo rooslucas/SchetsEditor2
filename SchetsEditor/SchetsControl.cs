@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace SchetsEditor
 {   public class SchetsControl : UserControl
@@ -42,6 +43,16 @@ namespace SchetsEditor
         {   schets.Schoon();
             this.Invalidate();
         }
+
+        public List<GetekendElement> KrijgLijst()
+        {
+            return schets.GetekendeElementen;
+        }
+/*        public void Toevoegen(string tekening)
+        {
+            GetekendElement element = new GetekendElement(tekening)
+            schets.GetekendeElementen.Add(tekening);
+        }*/
 
         public void Roteer(object o, EventArgs ea)
         {   schets.VeranderAfmeting(new Size(this.ClientSize.Height, this.ClientSize.Width));
