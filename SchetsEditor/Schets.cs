@@ -45,8 +45,12 @@ namespace SchetsEditor
             Graphics gr = Graphics.FromImage(bitmap);
             gr.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
             GetekendeElementen.Clear();
-        
+
         }
+        public void Opslaan()
+        { }
+        public void Openen()
+        { }
         public void Roteer()
         {
 /*            foreach (GetekendElement tekening in GetekendeElementen)

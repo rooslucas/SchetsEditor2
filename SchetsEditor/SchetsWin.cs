@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Resources;
+using System.IO;
 
 namespace SchetsEditor
 {
@@ -41,7 +42,36 @@ namespace SchetsEditor
             this.Close();
         }
 
-        public SchetsWin()
+        private void Opslaan(object o, EventArgs ea)
+        {
+/*            {
+                SaveFileDialog dialoog = new SaveFileDialog();
+                dialoog.Filter = "Alle files|*.*";
+                dialoog.Title = "Opslaan";
+                if (dialoog.ShowDialog() == DialogResult.OK)
+                {
+                    StreamWriter stream = File.CreateText(dialoog.FileName + ".txt");
+                    string Tekst = List2String(Getekend);
+                    stream.Write(Tekst);
+                    stream.Close();
+                }
+            }*/
+        }
+
+        private void Openen(object o, EventArgs ea)
+        {
+/*            FileStream s = new FileStream(file, FileMode.Open);
+            string type = Path.GetExtension(file);
+            if (type == ".txt")
+            {
+                StreamReader sr = new StreamReader(s);
+                string tekst = sr.ReadToEnd();
+                Getekend = String2List(tekst);
+                DrawFromList(Getekend);
+
+            }*/
+        }
+    public SchetsWin()
         {
             ISchetsTool[] deTools = { new PenTool()
                                     , new LijnTool()
@@ -108,6 +138,8 @@ namespace SchetsEditor
             ToolStripMenuItem menu = new ToolStripMenuItem("File");
             menu.MergeAction = MergeAction.MatchOnly;
             menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
+            menu.DropDownItems.Add("Opslaan", null);
+            menu.DropDownItems.Add("Openen", null);
             menuStrip.Items.Add(menu);
         }
 

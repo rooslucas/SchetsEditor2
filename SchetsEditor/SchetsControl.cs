@@ -42,6 +42,7 @@ namespace SchetsEditor
         {   schets.Schoon();
             this.Invalidate();
         }
+
         public void Roteer(object o, EventArgs ea)
         {   schets.VeranderAfmeting(new Size(this.ClientSize.Height, this.ClientSize.Width));
             schets.Roteer();
