@@ -14,6 +14,7 @@ namespace SchetsEditor
 
     public abstract class StartpuntTool : ISchetsTool
     {
+        // Voeg variabele eindpunt toe zodat het eindpunt van een object opgeslagen kan wroden
         protected Point startpunt, eindpunt;
         protected Brush kwast;
 
@@ -95,6 +96,7 @@ namespace SchetsEditor
         public override void MuisLos(SchetsControl s, Point p)
         {
             base.MuisLos(s, p);
+            // Voeg de rechthoek toe aan de lijst met getekende elementen
             Rechthoek rechthoek = new Rechthoek(startpunt, eindpunt, s.PenKleur);
             s.Schets.GetekendeElementen.Add(rechthoek);
         }

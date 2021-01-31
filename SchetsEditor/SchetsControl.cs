@@ -29,11 +29,12 @@ namespace SchetsEditor
         }
         private void veranderAfmeting(object o, EventArgs ea)
         {
+            schets.VeranderAfmeting(this.ClientSize);
             this.Invalidate();
         }
         public Graphics MaakBitmapGraphics()
         {
-            Graphics g = schets.BitmapGraphics; schets.VeranderAfmeting(this.ClientSize);
+            Graphics g = schets.BitmapGraphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
             return g;
         }
