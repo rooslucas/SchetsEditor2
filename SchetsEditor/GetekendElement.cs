@@ -95,8 +95,8 @@ namespace SchetsEditor
 
             linkx = (p.X >= startpunt.X - 5 && p.X <= startpunt.X + 5) && (p.Y >= startpunt.Y && p.Y <= startpunt.Y + lengte);
             rechtsx = (p.X >= eindpunt.X - 5 && p.X <= eindpunt.X + 5) && (p.Y >= startpunt.Y && p.Y <= startpunt.Y + lengte);
-            boveny = (p.Y >= startpunt.Y - 5 && p.Y <= startpunt.Y - 5) && (p.X >= startpunt.X && p.X <= startpunt.X + breedte);
-            ondery = (p.Y >= eindpunt.Y - 5 && p.Y <= eindpunt.Y - 5) && (p.X >= startpunt.X && p.X <= startpunt.X + breedte);
+            boveny = (p.Y >= startpunt.Y - 5 && p.Y <= startpunt.Y + 5) && (p.X >= startpunt.X && p.X <= startpunt.X + breedte);
+            ondery = (p.Y >= eindpunt.Y - 5 && p.Y <= eindpunt.Y + 5) && (p.X >= startpunt.X && p.X <= startpunt.X + breedte);
 
             return linkx || rechtsx || boveny || ondery;
         }
@@ -206,6 +206,7 @@ namespace SchetsEditor
         public override bool Geraakt(Point p)
         {
             double afstand, a, b;
+            //if (eindpunt.Y - startpunt.Y != 0)
             a = (eindpunt.X - startpunt.X) / (eindpunt.Y - startpunt.Y);
             b = startpunt.Y - (a * startpunt.X);
             afstand = Math.Abs(a * p.X - p.Y + b) / Math.Sqrt(a * a + b * b);

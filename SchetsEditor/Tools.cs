@@ -198,17 +198,17 @@ namespace SchetsEditor
             {
                 if (s.Schets.GetekendeElementen != null)
                 {
-                    for (int i = 0; i < s.Schets.GetekendeElementen.Count; i++)
+                    for (int i = s.Schets.GetekendeElementen.Count - 1; i>= 0; i--)
                     {
                         GetekendElement tekening = s.Schets.GetekendeElementen[i];
                         if (tekening.Geraakt(p))
                         {
                             s.Schets.GetekendeElementen.Remove(tekening);
-                            i = s.Schets.GetekendeElementen.Count;
                             s.MaakBitmapGraphics();
+                            s.Invalidate();
+                            break;
                         }
                     }
-                   s.Invalidate();
                 
                 }
             }
