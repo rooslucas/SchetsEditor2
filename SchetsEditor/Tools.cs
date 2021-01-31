@@ -42,13 +42,15 @@ namespace SchetsEditor
                 Graphics gr = s.MaakBitmapGraphics();
                 Font font = new Font("Tahoma", 40);
                 string tekst = c.ToString();
-                SizeF sz = 
+                SizeF sz =
                 gr.MeasureString(tekst, font, this.startpunt, StringFormat.GenericTypographic);
-                gr.DrawString   (tekst, font, kwast, 
-                                              this.startpunt, StringFormat.GenericTypographic);
-                // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
+                gr.DrawString(tekst, font, kwast,
+                                            this.startpunt, StringFormat.GenericTypographic);
+                gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
                 startpunt.X += (int)sz.Width;
                 s.Invalidate();
+                Tekst letter = new Tekst(startpunt, eindpunt, s.PenKleur, c);
+                s.Schets.GetekendeElementen.Add(letter);
             }
         }
     }
@@ -83,10 +85,10 @@ namespace SchetsEditor
         {
         }
         public abstract void Bezig(Graphics g, Point p1, Point p2);
-        
+/*        
         public virtual void Compleet(Graphics g, Point p1, Point p2)
         {   //this.Bezig(g, p1, p2);
-        }
+        }*/
     }
 
     public class RechthoekTool : TweepuntTool
@@ -106,7 +108,7 @@ namespace SchetsEditor
         }
     }
     
-    public class VolRechthoekTool : RechthoekTool
+    public class VolRechthoekTool : TweepuntTool
     {
         public override string ToString() { return "vlak"; }
 
@@ -141,8 +143,8 @@ namespace SchetsEditor
         }
     }
 
-    // Vult een ovaal in een rechthoek en gebruikt Bezig van OvaalTool en is daarom een subklasse
-    public class VolOvaalTool : OvaalTool
+    // Vult een ovaal in een rechthoek 
+    public class VolOvaalTool : TweepuntTool
     {
         public override string ToString() { return "ovaal"; }
 
@@ -152,11 +154,11 @@ namespace SchetsEditor
             VolOvaal volovaal = new VolOvaal(startpunt, eindpunt, s.PenKleur);
             s.Schets.GetekendeElementen.Add(volovaal);
         }
-/*
-        public override void Compleet(Graphics g, Point p1, Point p2)
+
+        public override void Bezig(Graphics g, Point p1, Point p2)
         {
             g.FillEllipse(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
-        }*/
+        }
 
     }
 
@@ -190,11 +192,6 @@ namespace SchetsEditor
     public class GumTool : PenTool
     {
         public override string ToString() { return "gum"; }
-
-        /*        public override void Bezig(Graphics g, Point p1, Point p2)
-                {
-                    g.DrawLine(MaakPen(Brushes.White, 7), p1, p2);
-                }*/
 
         public override void MuisLos(SchetsControl s, Point p)
         {

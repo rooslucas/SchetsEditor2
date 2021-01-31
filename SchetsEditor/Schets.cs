@@ -49,7 +49,14 @@ namespace SchetsEditor
         }
         public void Roteer()
         {
-            bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+/*            foreach (GetekendElement tekening in GetekendeElementen)
+            {
+                Point oudstartpunt = tekening.Startpunt();
+                tekening.VeranderStartpunt(tekening.Eindpunt());
+                tekening.VeranderEindpunt(oudstartpunt);
+
+            }*/
+            /*bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);*/
         }
     }
 }

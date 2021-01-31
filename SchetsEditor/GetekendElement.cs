@@ -14,6 +14,15 @@ namespace SchetsEditor
         protected Color kleur;
         protected char letter;
         protected Brush kwast;
+/*
+        public Point Startpunt()
+        { return startpunt; }
+        public void VeranderStartpunt(Point p)
+        { startpunt = p; }
+        public Point Eindpunt()
+        { return eindpunt; }
+        public void VeranderEindpunt(Point p)
+        { eindpunt = p; }*/
 
         public virtual void Teken(Graphics gr)
         { kwast = new SolidBrush(kleur); }
@@ -27,26 +36,41 @@ namespace SchetsEditor
         }
 
     }
-/*
+
     public class Tekst : GetekendElement
     {
-        public void Teken(Graphics gr)
+        public Tekst(Point s, Point e, Color c, char k)
         {
-*//*            if (c >= 32)
+            startpunt = s;
+            eindpunt = e;
+            kleur = c;
+            letter = k;
+        }
+        public override string ToString()
+        {
+            return $"{startpunt} {eindpunt} {kleur} {letter}";
+        }
+        public override void Teken(Graphics gr)
+        {
+            base.Teken(gr);
+            if (letter >= 32)
             {
-                Graphics gr = SchetsControl.MaakBitmapGraphics();
                 Font font = new Font("Tahoma", 40);
-                string tekst = c.ToString();
+                string tekst = letter.ToString();
                 SizeF sz =
                 gr.MeasureString(tekst, font, this.startpunt, StringFormat.GenericTypographic);
                 gr.DrawString(tekst, font, kwast,
-                                              this.startpunt, StringFormat.GenericTypographic);
+                                  this.startpunt, StringFormat.GenericTypographic);
                 // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
                 startpunt.X += (int)sz.Width;
-                s.Invalidate();
-            }*//*
+            }
         }
-    }*/
+
+        public override bool Geraakt(Point p)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     public class Rechthoek : GetekendElement
     {
