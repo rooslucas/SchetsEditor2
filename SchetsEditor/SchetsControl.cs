@@ -48,11 +48,40 @@ namespace SchetsEditor
         {
             return schets.GetekendeElementen;
         }
-/*        public void Toevoegen(string tekening)
+        public void Toevoegen(string tekening)
         {
-            GetekendElement element = new GetekendElement(tekening)
-            schets.GetekendeElementen.Add(tekening);
-        }*/
+            string[] v = tekening.Split();
+            string soort = v[0];
+            Point startpunt = new Point(int.Parse(v[1]), int.Parse(v[2]));
+            Point eindpunt = new Point(int.Parse(v[3]), int.Parse(v[4]));
+            Color kleur = Color.FromArgb(int.Parse(v[5]));
+
+            if (soort == "rechthoek")
+            {
+                Rechthoek rechthoek = new Rechthoek(startpunt, eindpunt, kleur);
+                schets.GetekendeElementen.Add(rechthoek);
+            }
+            else if(soort == "volrechthoek")
+            {
+                VolRechthoek volrechthoek = new VolRechthoek(startpunt, eindpunt, kleur);
+                schets.GetekendeElementen.Add(volrechthoek);
+            }
+            else if (soort == "ovaal")
+            {
+                Ovaal ovaal = new Ovaal(startpunt, eindpunt, kleur);
+                schets.GetekendeElementen.Add(ovaal);
+            }
+            else if (soort == "volovaal")
+            {
+                VolOvaal volovaal = new VolOvaal(startpunt, eindpunt, kleur);
+                schets.GetekendeElementen.Add(volovaal);
+            }
+            else if (soort == "lijn")
+            {
+                Lijn lijn = new Lijn(startpunt, eindpunt, kleur);
+                schets.GetekendeElementen.Add(lijn);
+            }
+        }
 
         public void Roteer(object o, EventArgs ea)
         {   schets.VeranderAfmeting(new Size(this.ClientSize.Height, this.ClientSize.Width));

@@ -11,6 +11,7 @@ namespace SchetsEditor
         protected Color kleur;
         protected char letter;
         protected Brush kwast;
+        public String soort;
 /*
         public Point Startpunt()
         { return startpunt; }
@@ -25,12 +26,6 @@ namespace SchetsEditor
         { kwast = new SolidBrush(kleur); }
 
         public abstract bool Geraakt(Point p);
-
-        // Override methode ToString om de elementen op te kunnen slaan in een string
-        public override string ToString()
-        {
-            return $"{startpunt} {eindpunt} {kleur}";
-        }
 
     }
 
@@ -101,6 +96,11 @@ namespace SchetsEditor
 
             return linkx || rechtsx || boveny || ondery;
         }
+        // Zorgt dat een rechthoek weergegeven kan worden als een string
+        public override string ToString()
+        {
+            return $"rechthoek {startpunt.X} {startpunt.Y} {eindpunt.X} {eindpunt.Y} {kleur.ToArgb()}";
+        }
 
     }
 
@@ -127,6 +127,12 @@ namespace SchetsEditor
         {
             base.Teken(gr);
             gr.FillRectangle(kwast, TweepuntTool.Punten2Rechthoek(startpunt, eindpunt));
+        }
+
+        // Zorgt dat een volle rechthoek weergegeven kan worden als een string
+        public override string ToString()
+        {
+            return $"volrechthoek {startpunt.X} {startpunt.Y} {eindpunt.X} {eindpunt.Y} {kleur.ToArgb()}";
         }
     }
 
@@ -161,6 +167,12 @@ namespace SchetsEditor
             relatievestraal = Math.Pow((p.X - xmidden) / breedte, 2) + Math.Pow((p.Y - ymidden) / lengte, 2);
             return relatievestraal >= 0.8 && relatievestraal <= 1.2;
         }
+
+        // Zorgt dat een ovaal weergegeven kan worden als een string
+        public override string ToString()
+        {
+            return $"ovaal {startpunt.X} {startpunt.Y} {eindpunt.X} {eindpunt.Y} {kleur.ToArgb()}";
+        }
     }
 
     public class VolOvaal : GetekendElement
@@ -194,6 +206,11 @@ namespace SchetsEditor
             return relatievestraal <= 1.0;
         }
 
+        // Zorgt dat een volovaal weergegeven kan worden als een string
+        public override string ToString()
+        {
+            return $"volovaal {startpunt.X} {startpunt.Y} {eindpunt.X} {eindpunt.Y} {kleur.ToArgb()}";
+        }
     }
 
     public class Lijn : GetekendElement
@@ -225,6 +242,12 @@ namespace SchetsEditor
             b = startpunt.Y - (a * startpunt.X);
             afstand = Math.Abs(a * p.X - p.Y + b) / Math.Sqrt(a * a + b * b);
             return (a * p.X + b == p.Y || afstand <= 5);
+        }
+
+        // Zorgt dat een lijn weergegeven kan worden als een string
+        public override string ToString()
+        {
+            return $"lijn {startpunt.X} {startpunt.Y} {eindpunt.X} {eindpunt.Y} {kleur.ToArgb()}";
         }
     }
 }

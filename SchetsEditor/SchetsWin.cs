@@ -60,21 +60,19 @@ namespace SchetsEditor
 
         private void Openen(object o, EventArgs ea)
         {
-/*            FileStream s = new FileStream(file, FileMode.Open);
-            string type = Path.GetExtension(file);
-            if (type == ".txt")
+            OpenFileDialog dialoog = new OpenFileDialog();
+            if (dialoog.ShowDialog() == DialogResult.OK)
             {
-                StreamReader sr = new StreamReader(s);
+                StreamReader r = new StreamReader(dialoog.FileName);
                 string regel;
-                while ((regel = sr.ReadLine()) != null)
+                while ((regel = r.ReadLine()) != null)
                     schetscontrol.Toevoegen(regel);
-                sr.Close();
-                this.Invalidate();
-
-
-            }*/
+                r.Close();
+                schetscontrol.Invalidate();
+            }
         }
-    public SchetsWin()
+
+            public SchetsWin()
         {
             ISchetsTool[] deTools = { new PenTool()
                                     , new LijnTool()
@@ -143,7 +141,7 @@ namespace SchetsEditor
             menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
             // Voeg opslaan en openen opties toe aan het menu
             menu.DropDownItems.Add("Opslaan", null, this.Opslaan);
-            menu.DropDownItems.Add("Openen", null);
+            menu.DropDownItems.Add("Openen", null, this.Openen);
             menuStrip.Items.Add(menu);
         }
 

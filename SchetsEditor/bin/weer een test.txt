@@ -1,0 +1,2 @@
+{X=120,Y=71} {X=461,Y=329} Color [Black]
+{X=25,Y=223} {X=241,Y=430} Color [Black]
