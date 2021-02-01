@@ -44,6 +44,7 @@ namespace SchetsEditor
             this.Invalidate();
         }
 
+        // Zo kan de gumtool de lijst met elementen krijgen
         public List<GetekendElement> KrijgLijst()
         {
             return schets.GetekendeElementen;
@@ -102,7 +103,7 @@ namespace SchetsEditor
         }
 
         public void Roteer(object o, EventArgs ea)
-        {   schets.VeranderAfmeting(new Size(this.ClientSize.Height, this.ClientSize.Width));
+        {   //schets.VeranderAfmeting(new Size(this.ClientSize.Height, this.ClientSize.Width));
             schets.Roteer();
             this.Invalidate();
         }

@@ -90,12 +90,6 @@ namespace SchetsEditor
         {
         }
         public abstract void Bezig(Graphics g, Point p1, Point p2);
-
-        // Deze methode is overbodig geworden en daarom als comment behouden
-/*        
-        public virtual void Compleet(Graphics g, Point p1, Point p2)
-        {   //this.Bezig(g, p1, p2);
-        }*/
     }
 
     public class RechthoekTool : TweepuntTool
