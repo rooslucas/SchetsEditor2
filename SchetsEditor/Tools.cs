@@ -200,7 +200,7 @@ namespace SchetsEditor
             this.MuisVast(s, p);
         }
 
-        // TODO uitleg hoe pen gegumd wordt...
+        // De Penstreken worden opgeslagen als losse lijnen en worden op dezelfde manier uitgegumd als een lijn
     }
 
     public class GumTool : PenTool

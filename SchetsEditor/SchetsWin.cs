@@ -14,6 +14,7 @@ namespace SchetsEditor
         SchetsControl schetscontrol;
         ISchetsTool huidigeTool;
         Panel paneel;
+        // Declareer een array van arrays voor meer kleuroptiese
         String[][] deKleurSoorten;
         bool vast;
         ResourceManager resourcemanager
@@ -92,17 +93,18 @@ namespace SchetsEditor
             String[] deKleuren = { "Black", "Red", "Orange", "Yellow", "Green", "Blue"
                                  , "Pink", "Purple", "White"
                                  };
+            // Definieer de extra kleuropties voor elke kleur
             String[] Blue ={ "Blue", "Navy", "MidnightBlue", "RoyalBlue", "LightBlue", "Cyan" };
             String[] Red = { "Red", "OrangeRed", "Crimson", "DarkRed", "FireBrick", "Tomato" };
             String[] Black = { "Black", "Gray", "DarkSlateGray", "Silver", "DimGray", "LightSlateGray" };
-            String[] Orange = { "Orange", "Chocolate", "DarkOrange", "SanyBrown", "Brown", "Tan" };
+            String[] Orange = { "Orange", "Chocolate", "DarkOrange", "SandyBrown", "Brown", "Tan" };
             String[] Green = { "Green", "LimeGreen", "DarkGreen", "Olive", "Chartreuse", "LightGreen" };
             String[] Yellow = { "Yellow", "Gold", "LightYellow", "Goldenrod", "LemonChiffon" };
             String[] Pink = { "Magenta", "DeepPink", "LightPink", "Coral", "MistyRose", "HotPink" };
             String[] Purple = { "Purple", "Indigo", "MediumPurple", "DarkViolet", "Plum", "Lavender" };
-            String[] White = { "White" };
+            String[] White = { "White", "FloralWhite", "Ivory", "GhostWhite", "Snow", "WhiteSmoke" };
 
-             
+            // De lijst met arrays van extra kleuropties
             deKleurSoorten = new String[][] { Black, Red, Orange, Yellow, Green, Blue, Pink, Purple, White };
 
             this.ClientSize = new Size(700, 520);
@@ -224,6 +226,7 @@ namespace SchetsEditor
             l.AutoSize = true;               
             paneel.Controls.Add(l);
 
+            // Maak extra combobox aan voor meer kleuropties
             ccb = new ComboBox(); ccb.Location = new Point(400, 0);
             ccb.DropDownStyle = ComboBoxStyle.DropDownList;
             ccb.SelectedValueChanged += schetscontrol.VeranderKleur;
@@ -238,7 +241,7 @@ namespace SchetsEditor
             cbb.SelectedIndex = 0;
             paneel.Controls.Add(cbb);
         }
-
+        // Veranderd inhoud van combobox ccb zodat er meer kleuren gekozen kunnen worden
         private void VeranderSoort(object obj, EventArgs ea)
         {
             ccb.Items.Clear();

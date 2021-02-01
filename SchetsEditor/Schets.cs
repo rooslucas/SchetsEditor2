@@ -49,25 +49,28 @@ namespace SchetsEditor
             GetekendeElementen.Clear();
 
         }
-        public void Opslaan()
-        { }
-        public void Openen()
-        { }
+
 
         // Methode die alle elementen roteert en ook zo opslaat
         public void Roteer()
         {
-            // Wisselt voor elk element de x en y punten om
-            foreach (GetekendElement tekening in GetekendeElementen)
+            // Controleert eerst of de lijst niet leeg is
+            if (GetekendeElementen != null)
             {
-                int sx, sy, ex, ey;
+                int i, sx, sy, ex, ey;
+
+                //Bepaal positie meest recente element
+                i = GetekendeElementen.Count - 1;
+                GetekendElement tekening = GetekendeElementen[i];
+
                 sx = tekening.Startpunt.X;
                 sy = tekening.Startpunt.Y;
                 ex = tekening.Eindpunt.X;
                 ey = tekening.Eindpunt.Y;
+
+                // Wisselt voor het meest recente element de x en y punten om
                 tekening.Startpunt = new Point(sy, sx);
                 tekening.Eindpunt = new Point(ey, ex);
-
             }
             /*bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);*/
         }

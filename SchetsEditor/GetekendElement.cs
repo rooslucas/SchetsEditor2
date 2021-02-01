@@ -247,4 +247,6 @@ namespace SchetsEditor
             return $"lijn {startpunt.X} {startpunt.Y} {eindpunt.X} {eindpunt.Y} {kleur.ToArgb()}";
         }
     }
+
+
 }
