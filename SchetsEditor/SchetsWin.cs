@@ -42,6 +42,7 @@ namespace SchetsEditor
             this.Close();
         }
 
+        // Methode om de schets op te slaan als txt file
         private void Opslaan(object o, EventArgs ea)
         {
             {
@@ -58,7 +59,9 @@ namespace SchetsEditor
             }
         }
 
-        private void Openen(object o, EventArgs ea)
+        // Methode om een txt file te openen en te tekenen als schets
+        // Methode is public zodat deze ook in het hoofdscherm gebruikt kan worden
+        public void Openen(object o, EventArgs ea)
         {
             OpenFileDialog dialoog = new OpenFileDialog();
             if (dialoog.ShowDialog() == DialogResult.OK)

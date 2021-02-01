@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 namespace SchetsEditor
 {
@@ -23,6 +24,7 @@ namespace SchetsEditor
             menu = new ToolStripMenuItem("File");
             menu.DropDownItems.Add("Nieuw", null, this.nieuw);
             menu.DropDownItems.Add("Exit", null, this.afsluiten);
+            menu.DropDownItems.Add("Openen", null, this.openen);
             menuStrip.Items.Add(menu);
         }
         private void maakHelpMenu()
@@ -46,6 +48,15 @@ namespace SchetsEditor
         }
         private void afsluiten(object sender, EventArgs e)
         {   this.Close();
+        }
+
+        // Methode om vanuit het hoofdscherm te kunnen openen
+        private void openen(object sender, EventArgs e)
+        {
+            SchetsWin s = new SchetsWin();
+            s.MdiParent = this;
+            s.Openen(sender, e);
+            s.Show();
         }
     }
 }
