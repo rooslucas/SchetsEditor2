@@ -44,15 +44,17 @@ namespace SchetsEditor
                 string tekst = c.ToString();
                 SizeF sz =
                 gr.MeasureString(tekst, font, this.startpunt, StringFormat.GenericTypographic);
-                gr.DrawString(tekst, font, kwast,
+                // Dit stuk is overbodig geworden en toegepast in de methode Teken van Tekst
+/*                gr.DrawString(tekst, font, kwast,
                                             this.startpunt, StringFormat.GenericTypographic);
-                gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
-                startpunt.X += (int)sz.Width;
+                gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);*/
+                //startpunt.X += (int)sz.Width;
                 s.Invalidate();
-                this.startpunt = new Point(startpunt.X, startpunt.Y);
-                Tekst letter = new Tekst(this.startpunt, this.eindpunt, s.PenKleur, c);
+                eindpunt.X = startpunt.X + (int)sz.Width;
+                eindpunt.Y = startpunt.Y + (int)sz.Height;
+                Tekst letter = new Tekst(startpunt, eindpunt, s.PenKleur, tekst);
                 s.Schets.GetekendeElementen.Add(letter);
-                s.Refresh();
+                startpunt.X += (int)sz.Width;
             }
         }
     }

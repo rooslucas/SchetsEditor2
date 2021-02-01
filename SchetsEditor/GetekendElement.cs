@@ -9,18 +9,20 @@ namespace SchetsEditor
         // De variabele die gebruikt worden om een getekend element aan te maken
         protected Point startpunt, eindpunt;
         protected Color kleur;
-        protected char letter;
+        protected string letter;
         protected Brush kwast;
         public String soort;
-/*
-        public Point Startpunt()
-        { return startpunt; }
-        public void VeranderStartpunt(Point p)
-        { startpunt = p; }
-        public Point Eindpunt()
-        { return eindpunt; }
-        public void VeranderEindpunt(Point p)
-        { eindpunt = p; }*/
+
+        public Point Startpunt
+        { 
+            get { return startpunt; }
+            set { startpunt = value; }
+        }
+        public Point Eindpunt
+        {
+            get { return eindpunt; }
+            set { eindpunt = value; }
+        }
 
         public virtual void Teken(Graphics gr)
         { kwast = new SolidBrush(kleur); }
@@ -31,7 +33,7 @@ namespace SchetsEditor
 
     public class Tekst : GetekendElement
     {
-        public Tekst(Point s, Point e, Color c, char k)
+        public Tekst(Point s, Point e, Color c, string k)
         {
             startpunt = s;
             eindpunt = e;
@@ -40,26 +42,21 @@ namespace SchetsEditor
         }
         public override string ToString()
         {
-            return $"{startpunt} {eindpunt} {kleur} {letter}";
+            return $"tekst {startpunt.X} {startpunt.Y} {eindpunt.X} {eindpunt.Y} {kleur.ToArgb()} {letter}";
         }
         public override void Teken(Graphics gr)
         {
             base.Teken(gr);
-
-/*                Font font = new Font("Tahoma", 40);
-                string tekst = letter.ToString();
-                SizeF sz =
-                gr.MeasureString(tekst, font, startpunt, StringFormat.GenericTypographic);
-                gr.DrawString(tekst, font, kwast,
+            Font font = new Font("Tahoma", 40);
+            gr.DrawString(letter, font, kwast,
                                   startpunt, StringFormat.GenericTypographic);
-                //gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
-                startpunt.X += (int)sz.Width;*/
-
+            //gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, eindpunt.X, eindpunt.Y);
         }
-
+        // Controleert of een letter geraakt is
+        // Kijkt of het geklikte punt binnen de rechthoek van een letter zit
         public override bool Geraakt(Point p)
         {
-            throw new NotImplementedException();
+            return (p.X >= startpunt.X && p.X <= eindpunt.X && p.Y >= startpunt.Y && p.Y <= eindpunt.Y);
         }
     }
 
@@ -114,10 +111,9 @@ namespace SchetsEditor
         }
 
         // De volle rechthoek is geraakt als de er in de rechthoek geklikt wordt
+        // Controleert of het geklikte punt in het volle vierkant zit
         public override bool Geraakt(Point p)
         {
-            int breedte = Math.Abs(startpunt.X - eindpunt.X);
-            int lengte = Math.Abs(startpunt.Y - eindpunt.Y);
             return (p.X >= startpunt.X && p.X <= eindpunt.X && p.Y >= startpunt.Y && p.Y <= eindpunt.Y);
         }
 
@@ -164,7 +160,7 @@ namespace SchetsEditor
             xmidden = Math.Min(startpunt.X, eindpunt.X) + breedte;
             ymidden = Math.Min(startpunt.Y, eindpunt.Y) + lengte;
             relatievestraal = Math.Pow((p.X - xmidden) / breedte, 2) + Math.Pow((p.Y - ymidden) / lengte, 2);
-            return relatievestraal >= 0.8 && relatievestraal <= 1.2;
+            return relatievestraal < 0.8 &&  relatievestraal> 0.1;
         }
 
         // Zorgt dat een ovaal weergegeven kan worden als een string
@@ -202,7 +198,7 @@ namespace SchetsEditor
             xmidden = Math.Min(startpunt.X, eindpunt.X) + breedte;
             ymidden = Math.Min(startpunt.Y, eindpunt.Y) + lengte;
             relatievestraal = Math.Pow((p.X - xmidden) / breedte, 2) + Math.Pow((p.Y - ymidden) / lengte, 2);
-            return relatievestraal <= 0.8;
+            return Math.Sqrt(relatievestraal) <= 0.8;
         }
 
         // Zorgt dat een volovaal weergegeven kan worden als een string

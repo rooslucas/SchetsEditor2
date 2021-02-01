@@ -45,6 +45,7 @@ namespace SchetsEditor
         {
             Graphics gr = Graphics.FromImage(bitmap);
             gr.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
+            // Zorgt dat de lijst met getekende elementen ook leeg is
             GetekendeElementen.Clear();
 
         }
@@ -56,13 +57,20 @@ namespace SchetsEditor
         // Methode die alle elementen roteert en ook zo opslaat
         public void Roteer()
         {
-/*            foreach (GetekendElement tekening in GetekendeElementen)
+            // Wisselt voor elk element de x en y punten om
+            foreach (GetekendElement tekening in GetekendeElementen)
             {
-                Point oudstartpunt = tekening.Startpunt();
-                tekening.VeranderStartpunt(tekening.Eindpunt());
-                tekening.VeranderEindpunt(oudstartpunt);
+                int sx, sy, ex, ey;
+                sx = tekening.Startpunt.X;
+                sy = tekening.Startpunt.Y;
+                ex = tekening.Eindpunt.X;
+                ey = tekening.Eindpunt.Y;
+                tekening.Startpunt = new Point(sy, sx);
+                tekening.Eindpunt = new Point(ey, ex);
 
-            }*/
+                
+
+            }
             /*bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);*/
         }
     }

@@ -48,39 +48,56 @@ namespace SchetsEditor
         {
             return schets.GetekendeElementen;
         }
+        // Methode om zo alle regels uit het txt bestand te kunnen tekenen
         public void Toevoegen(string tekening)
         {
+            // Parse de belangrijke variabelen
             string[] v = tekening.Split();
             string soort = v[0];
             Point startpunt = new Point(int.Parse(v[1]), int.Parse(v[2]));
             Point eindpunt = new Point(int.Parse(v[3]), int.Parse(v[4]));
             Color kleur = Color.FromArgb(int.Parse(v[5]));
+            // Check of de soort geen tekst type is
+            if (soort != "tekst")
+            {
+                // Check vervolgens welk type het wel is
+                // Voeg een element van dat type toe aan de lijst GetekendeElementen
+                if (soort == "rechthoek")
+                {
+                    Rechthoek rechthoek = new Rechthoek(startpunt, eindpunt, kleur);
+                    schets.GetekendeElementen.Add(rechthoek);
+                }
+                else if (soort == "volrechthoek")
+                {
+                    VolRechthoek volrechthoek = new VolRechthoek(startpunt, eindpunt, kleur);
+                    schets.GetekendeElementen.Add(volrechthoek);
+                }
+                else if (soort == "ovaal")
+                {
+                    Ovaal ovaal = new Ovaal(startpunt, eindpunt, kleur);
+                    schets.GetekendeElementen.Add(ovaal);
+                }
+                else if (soort == "volovaal")
+                {
+                    VolOvaal volovaal = new VolOvaal(startpunt, eindpunt, kleur);
+                    schets.GetekendeElementen.Add(volovaal);
+                }
+                else if (soort == "lijn")
+                {
+                    Lijn lijn = new Lijn(startpunt, eindpunt, kleur);
+                    schets.GetekendeElementen.Add(lijn);
+                }
+            }
+            // Controleer of het type tekst is
+            else if (soort == "tekst")
+            {
+                // Parse dan de string met karakters
+                String letter = v[6];
+                // Voeg deze toe aan de lijst met getekende elementen
+                Tekst tekst = new Tekst(startpunt, eindpunt, kleur, letter);
+                schets.GetekendeElementen.Add(tekst);
+            }
 
-            if (soort == "rechthoek")
-            {
-                Rechthoek rechthoek = new Rechthoek(startpunt, eindpunt, kleur);
-                schets.GetekendeElementen.Add(rechthoek);
-            }
-            else if(soort == "volrechthoek")
-            {
-                VolRechthoek volrechthoek = new VolRechthoek(startpunt, eindpunt, kleur);
-                schets.GetekendeElementen.Add(volrechthoek);
-            }
-            else if (soort == "ovaal")
-            {
-                Ovaal ovaal = new Ovaal(startpunt, eindpunt, kleur);
-                schets.GetekendeElementen.Add(ovaal);
-            }
-            else if (soort == "volovaal")
-            {
-                VolOvaal volovaal = new VolOvaal(startpunt, eindpunt, kleur);
-                schets.GetekendeElementen.Add(volovaal);
-            }
-            else if (soort == "lijn")
-            {
-                Lijn lijn = new Lijn(startpunt, eindpunt, kleur);
-                schets.GetekendeElementen.Add(lijn);
-            }
         }
 
         public void Roteer(object o, EventArgs ea)
