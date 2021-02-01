@@ -57,6 +57,7 @@ namespace SchetsEditor
             Point startpunt = new Point(int.Parse(v[1]), int.Parse(v[2]));
             Point eindpunt = new Point(int.Parse(v[3]), int.Parse(v[4]));
             Color kleur = Color.FromArgb(int.Parse(v[5]));
+            
             // Check of de soort geen tekst type is
             if (soort != "tekst")
             {

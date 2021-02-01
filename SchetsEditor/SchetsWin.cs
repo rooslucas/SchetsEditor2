@@ -66,6 +66,7 @@ namespace SchetsEditor
             OpenFileDialog dialoog = new OpenFileDialog();
             if (dialoog.ShowDialog() == DialogResult.OK)
             {
+                //SchetsWin win = new SchetsWin
                 StreamReader r = new StreamReader(dialoog.FileName);
                 string regel;
                 while ((regel = r.ReadLine()) != null)
@@ -144,7 +145,6 @@ namespace SchetsEditor
             menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
             // Voeg opslaan en openen opties toe aan het menu
             menu.DropDownItems.Add("Opslaan", null, this.Opslaan);
-            menu.DropDownItems.Add("Openen", null, this.Openen);
             menuStrip.Items.Add(menu);
         }
 

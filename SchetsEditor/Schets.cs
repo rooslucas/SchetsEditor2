@@ -68,8 +68,6 @@ namespace SchetsEditor
                 tekening.Startpunt = new Point(sy, sx);
                 tekening.Eindpunt = new Point(ey, ex);
 
-                
-
             }
             /*bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);*/
         }
