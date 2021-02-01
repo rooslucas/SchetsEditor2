@@ -14,6 +14,7 @@ namespace SchetsEditor
         SchetsControl schetscontrol;
         ISchetsTool huidigeTool;
         Panel paneel;
+        String[][] deKleurSoorten;
         bool vast;
         ResourceManager resourcemanager
             = new ResourceManager("SchetsEditor.Properties.Resources"
@@ -91,7 +92,7 @@ namespace SchetsEditor
             String[] deKleuren = { "Black", "Red", "Orange", "Yellow", "Green", "Blue"
                                  , "Pink", "Purple", "White"
                                  };
-            String[] Blue = { "Blue", "Navy", "MidnightBlue", "RoyalBlue", "LightBlue", "Cyan" };
+            String[] Blue ={ "Blue", "Navy", "MidnightBlue", "RoyalBlue", "LightBlue", "Cyan" };
             String[] Red = { "Red", "OrangeRed", "Crimson", "DarkRed", "FireBrick", "Tomato" };
             String[] Black = { "Black", "Gray", "DarkSlateGray", "Silver", "DimGray", "LightSlateGray" };
             String[] Orange = { "Orange", "Chocolate", "DarkOrange", "SanyBrown", "Brown", "Tan" };
@@ -101,7 +102,8 @@ namespace SchetsEditor
             String[] Purple = { "Purple", "Indigo", "MediumPurple", "DarkViolet", "Plum", "Lavender" };
             String[] White = { "White" };
 
-            String[][] deKleurSoorten = { Black, Red, Orange, Yellow, Green, Blue, Pink, Purple, White };
+             
+            deKleurSoorten = new String[][] { Black, Red, Orange, Yellow, Green, Blue, Pink, Purple, White };
 
             this.ClientSize = new Size(700, 520);
             huidigeTool = deTools[0];
@@ -196,13 +198,14 @@ namespace SchetsEditor
             }
         }
 
+        ComboBox ccb;
         private void maakAktieButtons(String[] kleuren, String[][] soorten)
         {   
             paneel = new Panel();
             paneel.Size = new Size(600, 24);
             this.Controls.Add(paneel);
             
-            Button b; Label l; ComboBox cbb, ccb;
+            Button b; Label l; ComboBox cbb;
             b = new Button(); 
             b.Text = "Clear";  
             b.Location = new Point(  0, 0); 
@@ -220,25 +223,28 @@ namespace SchetsEditor
             l.Location = new Point(180, 3); 
             l.AutoSize = true;               
             paneel.Controls.Add(l);
-            
+
+            ccb = new ComboBox(); ccb.Location = new Point(400, 0);
+            ccb.DropDownStyle = ComboBoxStyle.DropDownList;
+            ccb.SelectedValueChanged += schetscontrol.VeranderKleur;
+            paneel.Controls.Add(ccb);
+
             cbb = new ComboBox(); cbb.Location = new Point(240, 0); 
             cbb.DropDownStyle = ComboBoxStyle.DropDownList; 
             cbb.SelectedValueChanged += schetscontrol.VeranderKleur;
+            cbb.SelectedIndexChanged += VeranderSoort;
             foreach (string k in kleuren)
                 cbb.Items.Add(k);
             cbb.SelectedIndex = 0;
             paneel.Controls.Add(cbb);
+        }
 
-            // Maak een extra ComboBox aan om uitgebreide kleuropties toe te voegen
-            // TODO zorg dat het werkt...
-            ccb = new ComboBox(); ccb.Location = new Point(400, 0);
-            ccb.DropDownStyle = ComboBoxStyle.DropDownList;
-            ccb.SelectedValueChanged += schetscontrol.VeranderKleur;
+        private void VeranderSoort(object obj, EventArgs ea)
+        {
             ccb.Items.Clear();
-            foreach (string sk in soorten[0])
+            foreach (string sk in deKleurSoorten[((ComboBox)obj).SelectedIndex])
                 ccb.Items.Add(sk);
             ccb.SelectedIndex = 0;
-            paneel.Controls.Add(ccb);
         }
     }
 }

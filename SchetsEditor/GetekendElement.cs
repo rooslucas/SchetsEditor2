@@ -148,19 +148,20 @@ namespace SchetsEditor
             gr.DrawEllipse(TweepuntTool.MaakPen(kwast, 3), TweepuntTool.Punten2Rechthoek(startpunt, eindpunt));
         }
 
-        // Berekent de relatieve straal van punt tot middelpunt en kijkt of tussen de 0.95 en 1.05 zit
+        // Berekent de relatieve straal van punt tot middelpunt en kijkt of tussen de 0.6 en 0.4 zit
         // TODO betere uitleg van relatieve straal
         // bron: http://www.hhofstede.nl/modules/cirkel.htm
         public override bool Geraakt(Point p)
         {
             double relatievestraal;
-            int xmidden, ymidden;
-            int breedte = Math.Abs(startpunt.X - eindpunt.X) / 2;
-            int lengte = Math.Abs(startpunt.Y - eindpunt.Y) / 2;
-            xmidden = Math.Min(startpunt.X, eindpunt.X) + breedte;
-            ymidden = Math.Min(startpunt.Y, eindpunt.Y) + lengte;
-            relatievestraal = Math.Pow((p.X - xmidden) / breedte, 2) + Math.Pow((p.Y - ymidden) / lengte, 2);
-            return relatievestraal < 0.8 &&  relatievestraal> 0.1;
+            double xmidden, ymidden;
+            double breedte = Math.Abs(startpunt.X - eindpunt.X);
+            double lengte = Math.Abs(startpunt.Y - eindpunt.Y);
+            xmidden = (double)Math.Min(startpunt.X, eindpunt.X) + (breedte / 2);
+            ymidden = (double)Math.Min(startpunt.Y, eindpunt.Y) + (lengte / 2);
+            relatievestraal = ((double)Math.Pow((p.X - xmidden), 2) / Math.Pow((double)breedte, 2)) 
+                + ((double)Math.Pow((p.Y - ymidden), 2) / Math.Pow((double)lengte, 2));
+            return Math.Sqrt(relatievestraal) <= 0.6 &&  Math.Sqrt(relatievestraal) >= 0.4;
         }
 
         // Zorgt dat een ovaal weergegeven kan worden als een string
@@ -187,18 +188,19 @@ namespace SchetsEditor
             gr.FillEllipse(kwast, TweepuntTool.Punten2Rechthoek(startpunt, eindpunt));
         }
 
-        // Berekent de relatieve straal van punt tot middelpunt en kijkt of die kleiner is dan 1
+        // Berekent de relatieve straal van punt tot middelpunt en kijkt of die kleiner is dan 0.5
         // bron: http://www.hhofstede.nl/modules/cirkel.htm
         public override bool Geraakt(Point p)
         {
             double relatievestraal;
-            int xmidden, ymidden;
-            int breedte = Math.Abs(startpunt.X - eindpunt.X) / 2;
-            int lengte = Math.Abs(startpunt.Y - eindpunt.Y) / 2;
-            xmidden = Math.Min(startpunt.X, eindpunt.X) + breedte;
-            ymidden = Math.Min(startpunt.Y, eindpunt.Y) + lengte;
-            relatievestraal = Math.Pow((p.X - xmidden) / breedte, 2) + Math.Pow((p.Y - ymidden) / lengte, 2);
-            return Math.Sqrt(relatievestraal) <= 0.8;
+            double xmidden, ymidden;
+            double breedte = Math.Abs(startpunt.X - eindpunt.X);
+            double lengte = Math.Abs(startpunt.Y - eindpunt.Y);
+            xmidden = (double)Math.Min(startpunt.X, eindpunt.X) + (breedte / 2);
+            ymidden = (double)Math.Min(startpunt.Y, eindpunt.Y) + (lengte / 2);
+            relatievestraal = ((double)Math.Pow((p.X - xmidden), 2) / Math.Pow((double)breedte, 2)) 
+                + ((double)Math.Pow((p.Y - ymidden), 2) / Math.Pow((double)lengte, 2));
+            return Math.Sqrt(relatievestraal) <= 0.5;
         }
 
         // Zorgt dat een volovaal weergegeven kan worden als een string
@@ -232,9 +234,9 @@ namespace SchetsEditor
         {
             double afstand, a, b;
             if (eindpunt.X - startpunt.X != 0)
-                a = (eindpunt.Y - startpunt.Y) / (eindpunt.X - startpunt.X);
+                a = (double)(eindpunt.Y - startpunt.Y) / (double)(eindpunt.X - startpunt.X);
             else a = 0;
-            b = eindpunt.Y + (a * eindpunt.X);
+            b = eindpunt.Y - (a * eindpunt.X);
             afstand = Math.Abs(a * p.X - p.Y + b) / Math.Sqrt(a * a + 1);
             return (a * p.X + b == p.Y || afstand <= 5);
         }
