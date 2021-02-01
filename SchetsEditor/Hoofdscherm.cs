@@ -51,6 +51,7 @@ namespace SchetsEditor
         }
 
         // Methode om vanuit het hoofdscherm te kunnen openen
+        // Er wordt eerst een nieuw SchetsWin aangemaakt en daarin wordt de txt file geopend
         private void openen(object sender, EventArgs e)
         {
             SchetsWin s = new SchetsWin();

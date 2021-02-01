@@ -49,8 +49,10 @@ namespace SchetsEditor
                 gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
                 startpunt.X += (int)sz.Width;
                 s.Invalidate();
-                Tekst letter = new Tekst(startpunt, eindpunt, s.PenKleur, c);
+                this.startpunt = new Point(startpunt.X, startpunt.Y);
+                Tekst letter = new Tekst(this.startpunt, this.eindpunt, s.PenKleur, c);
                 s.Schets.GetekendeElementen.Add(letter);
+                s.Refresh();
             }
         }
     }

@@ -45,17 +45,16 @@ namespace SchetsEditor
         public override void Teken(Graphics gr)
         {
             base.Teken(gr);
-            if (letter >= 32)
-            {
-                Font font = new Font("Tahoma", 40);
+
+/*                Font font = new Font("Tahoma", 40);
                 string tekst = letter.ToString();
                 SizeF sz =
-                gr.MeasureString(tekst, font, this.startpunt, StringFormat.GenericTypographic);
+                gr.MeasureString(tekst, font, startpunt, StringFormat.GenericTypographic);
                 gr.DrawString(tekst, font, kwast,
-                                  this.startpunt, StringFormat.GenericTypographic);
-                // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
-                startpunt.X += (int)sz.Width;
-            }
+                                  startpunt, StringFormat.GenericTypographic);
+                //gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
+                startpunt.X += (int)sz.Width;*/
+
         }
 
         public override bool Geraakt(Point p)
@@ -119,7 +118,7 @@ namespace SchetsEditor
         {
             int breedte = Math.Abs(startpunt.X - eindpunt.X);
             int lengte = Math.Abs(startpunt.Y - eindpunt.Y);
-            return (p.X >= startpunt.X && p.X <= startpunt.X + breedte && p.Y >= startpunt.Y && startpunt.Y <= startpunt.Y + lengte);
+            return (p.X >= startpunt.X && p.X <= eindpunt.X && p.Y >= startpunt.Y && p.Y <= eindpunt.Y);
         }
 
         // Methode die aangeeft hoe een volle rechthoek getekend moet worden
@@ -203,7 +202,7 @@ namespace SchetsEditor
             xmidden = Math.Min(startpunt.X, eindpunt.X) + breedte;
             ymidden = Math.Min(startpunt.Y, eindpunt.Y) + lengte;
             relatievestraal = Math.Pow((p.X - xmidden) / breedte, 2) + Math.Pow((p.Y - ymidden) / lengte, 2);
-            return relatievestraal <= 1.0;
+            return relatievestraal <= 0.8;
         }
 
         // Zorgt dat een volovaal weergegeven kan worden als een string
@@ -236,11 +235,11 @@ namespace SchetsEditor
         public override bool Geraakt(Point p)
         {
             double afstand, a, b;
-            if (eindpunt.Y - startpunt.Y != 0)
-                a = (eindpunt.X - startpunt.X) / (eindpunt.Y - startpunt.Y);
+            if (eindpunt.X - startpunt.X != 0)
+                a = (eindpunt.Y - startpunt.Y) / (eindpunt.X - startpunt.X);
             else a = 0;
-            b = startpunt.Y - (a * startpunt.X);
-            afstand = Math.Abs(a * p.X - p.Y + b) / Math.Sqrt(a * a + b * b);
+            b = eindpunt.Y + (a * eindpunt.X);
+            afstand = Math.Abs(a * p.X - p.Y + b) / Math.Sqrt(a * a + 1);
             return (a * p.X + b == p.Y || afstand <= 5);
         }
 

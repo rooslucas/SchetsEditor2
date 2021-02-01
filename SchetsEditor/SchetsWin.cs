@@ -230,6 +230,7 @@ namespace SchetsEditor
             paneel.Controls.Add(cbb);
 
             // Maak een extra ComboBox aan om uitgebreide kleuropties toe te voegen
+            // TODO zorg dat het werkt...
             ccb = new ComboBox(); ccb.Location = new Point(400, 0);
             ccb.DropDownStyle = ComboBoxStyle.DropDownList;
             ccb.SelectedValueChanged += schetscontrol.VeranderKleur;
