@@ -44,7 +44,7 @@ namespace SchetsEditor
             this.Invalidate();
         }
 
-        // Zo kan de gumtool de lijst met elementen krijgen
+        // Zo kan de lijst met elementen opgehaald en opgeslagen worden
         public List<GetekendElement> KrijgLijst()
         {
             return schets.GetekendeElementen;

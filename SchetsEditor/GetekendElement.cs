@@ -233,12 +233,14 @@ namespace SchetsEditor
         public override bool Geraakt(Point p)
         {
             double afstand, a, b;
+            // Controleer dat er niet door nul gedeeld kan worden
             if (eindpunt.X - startpunt.X != 0)
                 a = (double)(eindpunt.Y - startpunt.Y) / (double)(eindpunt.X - startpunt.X);
+            // Als eindpunt.x - startpunt.x = 0
             else a = 0;
             b = eindpunt.Y - (a * eindpunt.X);
             afstand = Math.Abs(a * p.X - p.Y + b) / Math.Sqrt(a * a + 1);
-            return (a * p.X + b == p.Y || afstand <= 5);
+            return ( afstand <= 5);
         }
 
         // Zorgt dat een lijn weergegeven kan worden als een string

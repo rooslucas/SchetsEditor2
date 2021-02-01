@@ -204,29 +204,26 @@ namespace SchetsEditor
         // Het Nieuwe Gummen
         public override void MuisLos(SchetsControl s, Point p)
         {
+            // Controleert of de lijst niet leeg is
+            if (s.Schets.GetekendeElementen != null)
             {
-                // Controleert of de lijst niet leeg is
-                if (s.Schets.GetekendeElementen != null)
+                // Gaat van bovenste naar onderste element in de tekening
+                for (int i = s.Schets.GetekendeElementen.Count - 1; i >= 0; i--)
                 {
-                    // Gaat van bovenste naar onderste element in de tekening
-                    for (int i = s.Schets.GetekendeElementen.Count - 1; i>= 0; i--)
+                    GetekendElement tekening = s.Schets.GetekendeElementen[i];
+
+                    // Controleert of het getekende elment geraakt is, afhankelijk van het soort element
+                    if (tekening.Geraakt(p))
                     {
-                        GetekendElement tekening = s.Schets.GetekendeElementen[i];
+                        // Element wordt verwijderd van de lijst en de lijst wordt opnieuw getekend
+                        s.Schets.GetekendeElementen.Remove(tekening);
+                        s.Invalidate();
 
-                        // Controleert of het getekende elment geraakt is, afhankelijk van het soort element
-                        if (tekening.Geraakt(p))
-                        {
-                            // Element wordt verwijderd van de lijst en de lijst wordt opnieuw getekend
-                            s.Schets.GetekendeElementen.Remove(tekening);
-                            s.MaakBitmapGraphics();
-                            s.Invalidate();
-
-                            // De loop wordt gebroken zodat er niet per ongeluk teveel elemnten verwijderd worden
-                            break;
-                        }
+                        // De loop wordt afgebroken zodat er niet per ongeluk teveel elemnten verwijderd worden
+                        break;
                     }
-                
                 }
+
             }
         }
     }
